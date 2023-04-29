@@ -25,20 +25,17 @@ class App extends Component {
 
     const { contacts } = this.state;
 
-    const nameExist = contacts.find(
-      c => c.name.toLowerCase() === name.toLowerCase()
-    );
-    const numberExist = contacts.find(c => c.number === number);
-    const isNameOrNumberEmpty = name.trim() === '' || number.trim() === '';
-    const isIncorrectNumber = !/\d{3}[-]\d{2}[-]\d{2}/g.test(number);
-
-    if (nameExist) {
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
       alert(`${name} is already in contacts.`);
-    } else if (numberExist) {
+    } else if (contacts.find(contact => contact.number === number)) {
       alert(`${number} is already in contacts.`);
-    } else if (isNameOrNumberEmpty) {
+    } else if (name.trim() === '' || number.trim() === '') {
       alert("Enter the contact's name and number phone!");
-    } else if (isIncorrectNumber) {
+    } else if (!/\d{3}[-]\d{2}[-]\d{2}/g.test(number)) {
       alert('Enter the correct number phone!');
     } else {
       this.setState(({ contacts }) => ({
@@ -52,6 +49,7 @@ class App extends Component {
       contacts: contacts.filter(contact => contact.id !== contactId),
     }));
   };
+
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
@@ -64,20 +62,19 @@ class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
+
   render() {
     const { filter, contacts } = this.state;
     const visibleContacts = this.getVisibleContacts();
-    const isContactsNotEmpty = contacts.length > 0;
-
     return (
       <Container>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.addContact} />
         <h2>Contacts</h2>
-        {contacts.length <= 1 ? null : (
+        {contacts.length > 1 && (
           <Filter value={filter} onChange={this.changeFilter} />
         )}
-        {isContactsNotEmpty ? (
+        {contacts.length > 0 ? (
           <ContactList
             contacts={visibleContacts}
             onDeleteContact={this.deleteContact}

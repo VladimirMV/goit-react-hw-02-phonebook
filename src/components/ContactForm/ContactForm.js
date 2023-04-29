@@ -18,7 +18,6 @@ class ContactForm extends Component {
     e.preventDefault();
 
     this.props.onSubmit(this.state);
-
     this.setState({ name: '', number: '' });
   };
 
@@ -34,7 +33,10 @@ class ContactForm extends Component {
             name="name"
             value={name}
             onChange={this.handleChange}
-            placeholder="Ivan Ivanov"
+            placeholder="Evgen Vlasov"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
           />
         </label>
         <label className={s.label}>
