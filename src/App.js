@@ -26,20 +26,14 @@ class App extends Component {
     const { contacts } = this.state;
 
     const nameExist = contacts.find(
-      c => c.name.toLowerCase() === name.toLowerCase()
+      contact => contact.name.toLowerCase() === name.toLowerCase()
     );
-    const numberExist = contacts.find(c => c.number === number);
-    const isNameOrNumberEmpty = name.trim() === '' || number.trim() === '';
-    const isIncorrectNumber = !/\d{3}[-]\d{2}[-]\d{2}/g.test(number);
+    const numberExist = contacts.find(contact => contact.number === number);
 
     if (nameExist) {
       alert(`${name} is already in contacts.`);
     } else if (numberExist) {
       alert(`${number} is already in contacts.`);
-    } else if (isNameOrNumberEmpty) {
-      alert("Enter the contact's name and number phone!");
-    } else if (isIncorrectNumber) {
-      alert('Enter the correct number phone!');
     } else {
       this.setState(({ contacts }) => ({
         contacts: [contact, ...contacts],
@@ -74,7 +68,7 @@ class App extends Component {
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.addContact} />
         <h2>Contacts</h2>
-        {contacts.length <= 1 ? null : (
+        {contacts.length > 1 && (
           <Filter value={filter} onChange={this.changeFilter} />
         )}
         {isContactsNotEmpty ? (
